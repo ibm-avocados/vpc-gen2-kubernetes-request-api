@@ -7,6 +7,9 @@ app = Flask(__name__)
 def ping():
     return {"status": "pong"}
 
+@app.route('/version',methods=['GET'])
+def version():
+    return {"version": "v1.0.0"}
 
 @app.route('/create',methods=['POST'])
 def create():
@@ -20,7 +23,13 @@ def create():
     os.system('ibmcloud target -g "Default"')
     os.system('ibmcloud ce project select -n grant-cluster')
     os.system("ibmcloud ce jobrun submit --job vpc-gen2-kubernetes -a {0} -a {1} -a {2} -a {3} -a {4}".format(APIKEY,WORKSPACE,GHEKEY,COUNTNUMBER,REGION))
-    print("Running the command...")
+    print("#")
+    print("#")
+    print("#")
+    print(f"Running the command to build {WORKSPACE} in {REGION}.")
+    print("#")
+    print("#")
+    print("#")
     return jsonify(posted_data)
 
 @app.route('/delete',methods=['DELETE'])
@@ -32,7 +41,13 @@ def delete():
     os.system('ibmcloud target -g "Default"')
     os.system('ibmcloud plugin install schematics -f')
     os.system("ID_WORKSPACE=$(ibmcloud schematics workspace list | grep {0} | cut -d ' ' -f 4) && ibmcloud schematics destroy --id $ID_WORKSPACE -f ".format(WORKSPACE))
-    print("Deleting a workspace...")
+    print("#")
+    print("#")
+    print("#")
+    print(f"Running the command to delete {WORKSPACE}.")
+    print("#")
+    print("#")
+    print("#")
     return jsonify(posted_data)
 
 
